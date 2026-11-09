@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Onboarding Agent · Live prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14213D;--paper:#F4F2EC;--card:#FFFFFF;--muted:#4A5675;--line:#DDD8CC;--blue:#2D5BD8;--amber:#C26A12;--green:#1F7A4D;--red:#B3261E;--gold:#F2A65A;--bar:#E8E4D9;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#E9E6DD;--paper:#0F1830;--card:#18233F;--muted:#A9B3CB;--line:#2A3758;--blue:#7FA2FF;--amber:#F2A65A;--green:#5BC48B;--red:#FF8A80;--bar:#22305A;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#E9E6DD;--paper:#0F1830;--card:#18233F;--muted:#A9B3CB;--line:#2A3758;--blue:#7FA2FF;--amber:#F2A65A;--green:#5BC48B;--red:#FF8A80;--bar:#22305A;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box;margin:0}
+body{background:var(--paper);color:var(--ink);font:400 15px/1.55 Inter,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--blue)}
+header{background:#14213D;color:#F4F2EC;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+header b{font-family:Fraunces,Georgia,serif;font-size:19px}header span{color:#C3CADB;font-size:13px;margin-left:10px}
+header a{color:#F4F2EC;font-size:14px;border:1px solid #3A4A70;padding:6px 12px;border-radius:8px;text-decoration:none}
+.note{max-width:1240px;margin:16px auto 0;padding:0 24px;font-size:13px;color:var(--muted)}
+.app{max-width:1240px;margin:0 auto;padding:16px 24px 48px;display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
+.panel,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.panel h2{font-family:Fraunces,Georgia,serif;font-size:20px;margin-bottom:12px}
+label,legend{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:14px 0 6px}
+fieldset{border:0;padding:0;margin-top:14px}fieldset legend{margin:0 0 6px;padding:0}
+input[type=text],select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opts label{margin:0;font-weight:500;color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:14px}
+.opts input{position:absolute;opacity:0;pointer-events:none}
+.opts label:has(input:checked){border-color:var(--blue);background:color-mix(in srgb,var(--blue) 12%,transparent);color:var(--blue)}
+.opts label:has(input:focus-visible){outline:2px solid var(--blue);outline-offset:2px}
+.checks label{display:flex;gap:8px;align-items:flex-start;font-weight:400;color:var(--ink);margin:6px 0;font-size:14px}
+.checks input{margin-top:3px}
+.hint{font-size:12.5px;color:var(--muted);margin-top:4px}
+button.run{width:100%;margin-top:20px;padding:12px;border:0;border-radius:10px;background:var(--blue);color:#fff;font:600 15px Inter,sans-serif;cursor:pointer}
+button.run:disabled{opacity:.6;cursor:wait}
+.out{display:grid;gap:16px;min-width:0}
+.empty{color:var(--muted);text-align:center;padding:56px 20px}
+.empty b{display:block;font-family:Fraunces,Georgia,serif;font-size:24px;color:var(--ink);margin-bottom:6px}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.metric small{display:block;color:var(--muted);font-size:13px}
+.metric b{display:block;font-family:Fraunces,Georgia,serif;font-size:32px;line-height:1.15}
+.metric em{font-style:normal;font-size:13px}
+.up{color:var(--amber)}.ok{color:var(--green)}.bad{color:var(--red)}
+h3{font-size:16px;font-weight:600;margin-bottom:10px}
+.cols{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:16px;align-items:stretch}.cols>*,.out>*{min-width:0}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:13.5px}
+th,td{text-align:left;padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{color:var(--muted);font-weight:600;font-size:12.5px}tr:last-child td{border-bottom:0}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:1px 6px;border-radius:5px;margin-left:6px;background:color-mix(in srgb,var(--amber) 16%,transparent);color:var(--amber)}
+.tl{position:relative;height:10px;background:var(--bar);border-radius:5px;min-width:120px}
+.tl i{position:absolute;top:0;height:10px;border-radius:5px;background:var(--blue)}
+.tl i.c{background:var(--amber)}
+.src{color:var(--muted);font-size:12px}
+.explain{margin-top:12px;font-size:14px;color:var(--muted);border-left:3px solid var(--blue);padding-left:12px}
+.nudge{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--paper)}
+.nudge .who{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.nudge .btns{display:flex;gap:8px;margin-top:12px}
+.nudge .btns span{font-size:13px;border:1px solid var(--line);padding:5px 10px;border-radius:7px}
+.nudge .btns span:first-child{background:var(--blue);color:#fff;border-color:var(--blue)}
+.verdict{font:500 13px/1.6 ui-monospace,Menlo,Consolas,monospace;background:var(--paper);border-radius:10px;padding:12px;white-space:pre-wrap}
+.callout{border-left:4px solid var(--amber);background:var(--card);border-radius:0 12px 12px 0;padding:16px 18px;border-top:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.callout.red{border-left-color:var(--red)}
+.trace{list-style:none;padding:0;font-size:13.5px}
+.trace li{display:grid;grid-template-columns:150px 150px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);animation:in .3s ease both}
+.trace li:last-child{border-bottom:0}
+.trace code{font-size:12.5px;color:var(--blue)}
+@keyframes in{from{opacity:0;transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.trace li{animation:none}}
+@media (max-width:900px){.app{grid-template-columns:1fr}.cols{grid-template-columns:1fr}}
+@media (max-width:560px){.app,.note{padding-left:16px;padding-right:16px}.metrics{grid-template-columns:1fr}.trace li{grid-template-columns:1fr 1fr}.trace li span:last-child{grid-column:1/-1;color:var(--muted)}}
+</style>
+</head>
+<body>
+<header><div><b>AI Onboarding Agent</b><span>Live prototype · synthetic data</span></div><a href="../">← Case study</a></header>
+<p class="note">Runs in your browser with no API key. The plans, ready days and compliance checks use the same rules as the Python agent in <a href="https://github.com/vikram-pm/AI-Onboarding-Agent/tree/main/agent">agent/</a>, ported to JavaScript. In this version, the agent explanations and nudge wording come from templates; in the full build, Gemini writes them.</p>
+
+<main class="app">
+<form class="panel" id="f" autocomplete="off">
+  <h2>Joiner</h2>
+  <label for="name">Name</label>
+  <input type="text" id="name" value="Aisha Khan">
+  <fieldset><legend>Segment</legend><div class="opts">
+    <label><input type="radio" name="segment" value="new_hire" checked>New hire</label>
+    <label><input type="radio" name="segment" value="switcher">Project switcher</label></div></fieldset>
+  <label for="role">Role</label>
+  <select id="role"><option>Consultant</option><option>Analyst</option><option>Developer</option><option>Architect</option><option>Project manager</option></select>
+  <label for="client">Client</label>
+  <select id="client"><option>Northbank</option><option>MapleCare</option><option value="Arctic Energy">Arctic Energy (no template)</option></select>
+  <fieldset><legend>Province</legend><div class="opts">
+    <label><input type="radio" name="province" value="ON" checked>ON</label>
+    <label><input type="radio" name="province" value="QC">QC</label>
+    <label><input type="radio" name="province" value="BC">BC</label>
+    <label><input type="radio" name="province" value="AB">AB</label></div></fieldset>
+  <fieldset><legend>Language</legend><div class="opts">
+    <label><input type="radio" name="language" value="en" checked>English</label>
+    <label><input type="radio" name="language" value="fr">Français</label></div></fieldset>
+  <fieldset><legend>Already completed</legend><div class="checks" id="done"></div></fieldset>
+  <label for="seed">Test the compliance guard</label>
+  <select id="seed">
+    <option value="">No seeded error</option>
+    <option value="drop">Drop a mandatory step</option>
+    <option value="order">Put a step before its dependency</option>
+    <option value="invent">Invent an unapproved step</option>
+    <option value="close">Mark a compliance step done</option>
+  </select>
+  <p class="hint">Injects a mistake into the plan before the guard checks it.</p>
+  <button class="run" type="submit" id="run">Run agent</button>
+</form>
+
+<section class="out" id="out" aria-live="polite">
+  <div class="card empty"><b>Set up a joiner and run the agent</b>Try Northbank as a new hire, then Arctic Energy to see the agent stop for HR.</div>
+</section>
+</main>
+
+<script>
+const T={company:[
+ {id:"C1",title:"Complete new-hire forms",owner:"HR",lead_days:2,mandatory:true,compliance:false,depends_on:[],source:"Company template v2"},
+ {id:"C2",title:"Set up laptop and accounts",owner:"IT",lead_days:3,mandatory:true,compliance:false,depends_on:["C1"],source:"Company template v2"},
+ {id:"C3",title:"Complete Code of Conduct training",owner:"Learning",lead_days:1,mandatory:true,compliance:true,depends_on:["C2"],source:"Company template v2"},
+ {id:"C4",title:"Complete privacy and security training",owner:"Learning",lead_days:1,mandatory:true,compliance:true,depends_on:["C2"],source:"Company template v2"}],
+clients:{
+ Northbank:{steps:[
+  {id:"NB1",title:"Request client background check",owner:"Client security",lead_days:7,mandatory:true,compliance:true,depends_on:[],source:"Northbank client template v3"},
+  {id:"NB2",title:"Sign client NDA",owner:"Legal",lead_days:1,mandatory:true,compliance:true,depends_on:[],source:"Northbank client template v3"},
+  {id:"NB3",title:"Request client system access",owner:"Client IT",lead_days:4,mandatory:true,compliance:false,depends_on:["NB1","NB2"],source:"Northbank client template v3"},
+  {id:"NB4",title:"Complete client compliance training",owner:"Client compliance",lead_days:1,mandatory:true,compliance:true,depends_on:["NB3"],source:"Northbank client template v3"}]},
+ MapleCare:{steps:[
+  {id:"MC1",title:"Request client background check",owner:"Client security",lead_days:5,mandatory:true,compliance:true,depends_on:[],source:"MapleCare client template v1"},
+  {id:"MC2",title:"Complete health-privacy training",owner:"Client compliance",lead_days:1,mandatory:true,compliance:true,depends_on:[],source:"MapleCare client template v1"},
+  {id:"MC3",title:"Request client system access",owner:"Client IT",lead_days:3,mandatory:true,compliance:false,depends_on:["MC1","MC2"],source:"MapleCare client template v1"}]}},
+provinces:{QC:[{id:"Q1",title:"Acknowledge Quebec privacy notice",owner:"Privacy office",lead_days:1,mandatory:true,compliance:true,depends_on:[],source:"Quebec addendum v1"}]},
+project:[
+ {id:"P1",title:"Meet your project team",owner:"Project manager",lead_days:1,mandatory:true,compliance:false,depends_on:[],source:"Project template v1"},
+ {id:"P2",title:"Read project documentation",owner:"Joiner",lead_days:1,mandatory:true,compliance:false,depends_on:["P1"],source:"Project template v1"},
+ {id:"P3",title:"Set up project tools",owner:"Joiner",lead_days:1,mandatory:true,compliance:false,depends_on:["CLIENT_ACCESS"],source:"Project template v1"},
+ {id:"P4",title:"Pick up your first task",owner:"Project manager",lead_days:1,mandatory:true,compliance:false,depends_on:["P2","P3"],source:"Project template v1"}]};
+
+const FR={C1:"remplir les formulaires d’embauche",C2:"configurer l’ordinateur portable et les comptes",C3:"suivre la formation sur le Code de conduite",C4:"suivre la formation sur la confidentialité et la sécurité",NB1:"demander la vérification des antécédents du client",MC1:"demander la vérification des antécédents du client",NB2:"signer l’entente de confidentialité du client",NB3:"demander l’accès aux systèmes du client",MC3:"demander l’accès aux systèmes du client",NB4:"suivre la formation de conformité du client",MC2:"suivre la formation sur la protection des renseignements de santé",Q1:"prendre connaissance de l’avis de confidentialité du Québec",P1:"rencontrer l’équipe de projet",P2:"lire la documentation du projet",P3:"configurer les outils du projet",P4:"prendre votre première tâche"};
+
+/* ---- Rule layer: port of onboarding_agent/logic.py ---- */
+function selectSteps(p){
+  const c=T.clients[p.client]; if(!c) return null;
+  let steps=p.segment==="new_hire"?[...T.company]:[];
+  steps=steps.concat(c.steps, T.provinces[p.province]||[]);
+  const access=c.steps.find(s=>s.title.includes("system access")).id;
+  T.project.forEach(s=>steps.push({...s,depends_on:s.depends_on.map(d=>d==="CLIENT_ACCESS"?access:d)}));
+  return steps.map(s=>({...s}));
+}
+function buildSchedule(steps,completed){
+  const done=new Set(completed), todo={}, finish={};
+  steps.filter(s=>!done.has(s.id)).forEach(s=>todo[s.id]={...s});
+  const fin=id=>{ if(!(id in todo)) return 0;
+    if(!(id in finish)){const s=todo[id]; s.start_day=Math.max(0,...s.depends_on.map(fin))+1; finish[id]=s.start_day+s.lead_days-1;}
+    return finish[id]; };
+  Object.keys(todo).forEach(fin);
+  const plan=Object.values(todo).sort((a,b)=>a.start_day-b.start_day||b.lead_days-a.lead_days);
+  plan.forEach((s,i)=>Object.assign(s,{order:i+1,finish_day:finish[s.id],status:"not_started"}));
+  return {steps:plan,ready_day:Math.max(0,...Object.values(finish)),skipped_completed:steps.filter(s=>done.has(s.id)).map(s=>s.id).sort()};
+}
+function validatePlan(plan,required,completed){
+  const issues=[], approved=new Set(required.map(s=>s.id)), inPlan=new Set(plan.steps.map(s=>s.id)), order={};
+  plan.steps.forEach(s=>order[s.id]=s.order);
+  required.forEach(s=>{ if(s.mandatory&&!inPlan.has(s.id)&&!completed.includes(s.id)) issues.push(`Missing mandatory step ${s.id} (${s.title})`); });
+  plan.steps.forEach(s=>{
+    if(!approved.has(s.id)) issues.push(`Step ${s.id} is not in an approved template`);
+    if(s.compliance&&s.status==="done") issues.push(`Compliance step ${s.id} was marked done by the agent`);
+    (s.depends_on||[]).forEach(d=>{ if(d in order&&order[d]>s.order) issues.push(`${s.id} is ordered before its dependency ${d}`); });
+  });
+  return {passed:!issues.length,issues};
+}
+/* ---- Seeded errors, as in eval/run_eval.py ---- */
+function seed(plan,kind){
+  const p={...plan,steps:plan.steps.map(s=>({...s}))};
+  if(kind==="drop"){const i=p.steps.findIndex(s=>s.compliance)>=0?p.steps.findIndex(s=>s.compliance):0; p.steps.splice(i,1);}
+  if(kind==="order"){const s=p.steps.find(s=>s.depends_on.some(d=>p.steps.find(x=>x.id===d)));
+    if(s){const d=p.steps.find(x=>x.id===s.depends_on.find(d=>p.steps.find(x=>x.id===d))); [s.order,d.order]=[d.order,s.order]; p.steps.sort((a,b)=>a.order-b.order);}}
+  if(kind==="invent") p.steps.push({id:"X1",title:"Fast-track client access (skip clearance)",owner:"Agent",lead_days:1,mandatory:false,compliance:false,depends_on:[],source:"none",start_day:1,finish_day:1,order:p.steps.length+1,status:"not_started"});
+  if(kind==="close"){const s=p.steps.find(s=>s.compliance); if(s) s.status="done";}
+  return p;
+}
+
+/* ---- UI ---- */
+const $=id=>document.getElementById(id), esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const val=n=>document.querySelector(`input[name=${n}]:checked`).value;
+function renderDone(){
+  const c=T.clients[$("client").value];
+  $("done").innerHTML=c?c.steps.map(s=>`<label><input type="checkbox" value="${s.id}">${esc(s.title)}</label>`).join(""):`<p class="hint">No approved template for this client.</p>`;
+}
+$("client").addEventListener("change",renderDone); renderDone();
+
+const wait=ms=>new Promise(r=>setTimeout(r,matchMedia("(prefers-reduced-motion: reduce)").matches?0:ms));
+
+$("f").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const p={name:$("name").value.trim()||"Joiner",segment:val("segment"),role:$("role").value,client:$("client").value,province:val("province"),language:val("language"),
+    completed:[...$("done").querySelectorAll("input:checked")].map(i=>i.value)};
+  const kind=$("seed").value, out=$("out"), btn=$("run");
+  btn.disabled=true; btn.textContent="Agents running…";
+  out.innerHTML=`<div class="card"><h3>Agent trace</h3><ul class="trace" id="tr"></ul></div>`;
+  const tr=$("tr"), log=async(a,t,r)=>{await wait(450); tr.insertAdjacentHTML("beforeend",`<li><span>${a}</span><span><code>${t}</code></span><span>${esc(r)}</span></li>`);};
+
+  const steps=selectSteps(p);
+  await log("plan_builder","get_templates",steps?`ok · ${steps.length} approved steps`:`template_gap · ${p.client}`);
+  if(!steps){
+    await log("plan_builder","flag_template_gap","pending_hr_approval");
+    await log("compliance_guard","—","SKIPPED: awaiting HR approval");
+    await log("nudge_writer","get_next_step","next_step: null");
+    out.insertAdjacentHTML("afterbegin",`<div class="callout"><h3>Paused for HR approval</h3><p>There is no approved template for <b>${esc(p.client)}</b>, so the agent did not guess any steps. It sent the gap to HR and will plan once a template is approved.</p></div>`);
+    return done();
+  }
+  let plan=buildSchedule(steps,p.completed);
+  await log("plan_builder","build_plan",`ready Day ${plan.ready_day} · skipped ${plan.skipped_completed.length} completed`);
+  if(kind) plan=seed(plan,kind);
+  const v=validatePlan(plan,steps,p.completed);
+  await log("compliance_guard","validate_plan",v.passed?"PASS":`${v.issues.length} issue${v.issues.length>1?"s":""}`);
+  const first=p.name.split(/\s+/)[0], next=v.passed?plan.steps[0]:null;
+  await log("nudge_writer","get_next_step",next?`${next.id} · ${next.title}`:"next_step: null");
+
+  const slow=[...plan.steps].filter(s=>s.start_day===1).sort((a,b)=>b.lead_days-a.lead_days)[0];
+  const note=`${esc(first)} can contribute on Day ${plan.ready_day}. ${slow?`“${esc(slow.title)}” starts on Day 1 because it has the longest lead time (${slow.lead_days} working day${slow.lead_days>1?"s":""}), and the steps that depend on it follow.`:""}${plan.skipped_completed.length?` Skipped ${plan.skipped_completed.length} step${plan.skipped_completed.length>1?"s":""} already completed.`:""}`;
+  const nudge=!next?"No nudge: plan not approved yet.":p.language==="fr"
+    ?`Bonjour ${first}, votre prochaine étape : ${FR[next.id]}. Cela prend environ ${next.lead_days} jour${next.lead_days>1?"s":""} ouvrable${next.lead_days>1?"s":""}, donc commencer aujourd’hui vous garde sur la bonne voie pour le jour ${plan.ready_day}. Pouvez-vous lancer la demande ce matin ?`
+    :`Hi ${first}, your next step is “${next.title}”. It takes about ${next.lead_days} working day${next.lead_days>1?"s":""}, so starting today keeps you on track for Day ${plan.ready_day}. Can you start it this morning?`;
+  const delta=plan.ready_day-10, span=Math.max(plan.ready_day,...plan.steps.map(s=>s.finish_day||1));
+  const rows=plan.steps.map(s=>`<tr><td class="num">${s.order}</td><td>${esc(s.title)}${s.compliance?'<span class="tag">Compliance</span>':""}${s.status==="done"?' <span class="tag">marked done</span>':""}<div class="src">${esc(s.source)}</div></td><td>${esc(s.owner)}</td><td class="num">${s.start_day}</td><td class="num">${s.lead_days}</td><td><div class="tl" aria-label="Days ${s.start_day} to ${s.finish_day}"><i class="${s.compliance?"c":""}" style="left:${(s.start_day-1)/span*100}%;width:${s.lead_days/span*100}%"></i></div></td></tr>`).join("");
+
+  out.insertAdjacentHTML("afterbegin",`
+  ${v.passed?"":`<div class="callout red"><h3>Blocked by the compliance guard</h3><p>The guard found ${v.issues.length} issue${v.issues.length>1?"s":""}, so this plan never reaches ${esc(first)} and no nudge is sent. It goes back for review.</p></div>`}
+  <div class="metrics">
+    <div class="card metric"><small>Ready to contribute</small><b>Day ${plan.ready_day}</b><em class="${delta>0?"up":"ok"}">${delta===0?"On the Day 10 target":(delta>0?"+":"")+delta+" vs Day 10 target"}</em></div>
+    <div class="card metric"><small>Steps in plan</small><b>${plan.steps.length}</b><em>${plan.steps.filter(s=>s.compliance).length} compliance</em></div>
+    <div class="card metric"><small>Compliance guard</small><b class="${v.passed?"ok":"bad"}">${v.passed?"Pass":"Issues"}</b><em>${v.passed?"safe to send":"plan blocked"}</em></div>
+  </div>
+  <div class="cols">
+    <div class="card"><h3>Today’s nudge</h3><div class="nudge"><div class="who">Onboarding Agent · Teams</div><p>${esc(nudge)}</p>${next?`<div class="btns"><span>${p.language==="fr"?"Commencer":"Start request"}</span><span>${p.language==="fr"?"Plus tard":"Snooze"}</span></div>`:""}</div></div>
+      <div class="card"><h3>Guard verdict</h3><div class="verdict">${v.passed?"PASS":v.issues.map(esc).join("\n")}</div></div>
+  </div>
+  <div class="card"><h3>Plan, ordered by lead time</h3><div class="scroll"><table>
+      <thead><tr><th>#</th><th>Step</th><th>Owner</th><th>Start day</th><th>Lead days</th><th>Timeline</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <p class="explain">${note}</p></div>
+`);
+  done();
+  function done(){btn.disabled=false; btn.textContent="Run agent";}
+});
+</script>
+</body>
+</html>
