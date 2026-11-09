@@ -1,0 +1,4 @@
+google-adk>=2.13
+streamlit>=1.40
+pandas
+python-dotenv
