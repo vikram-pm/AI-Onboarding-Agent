@@ -1,0 +1,39 @@
+{
+  "_note": "Synthetic data for a concept project. Not real Cognizant or client processes.",
+  "company": [
+    {"id": "C1", "title": "Complete new-hire forms", "owner": "HR", "lead_days": 2, "mandatory": true, "compliance": false, "depends_on": [], "source": "Company template v2"},
+    {"id": "C2", "title": "Set up laptop and accounts", "owner": "IT", "lead_days": 3, "mandatory": true, "compliance": false, "depends_on": ["C1"], "source": "Company template v2"},
+    {"id": "C3", "title": "Complete Code of Conduct training", "owner": "Learning", "lead_days": 1, "mandatory": true, "compliance": true, "depends_on": ["C2"], "source": "Company template v2"},
+    {"id": "C4", "title": "Complete privacy and security training", "owner": "Learning", "lead_days": 1, "mandatory": true, "compliance": true, "depends_on": ["C2"], "source": "Company template v2"}
+  ],
+  "clients": {
+    "Northbank": {
+      "sector": "Financial services",
+      "steps": [
+        {"id": "NB1", "title": "Request client background check", "owner": "Client security", "lead_days": 7, "mandatory": true, "compliance": true, "depends_on": [], "source": "Northbank client template v3"},
+        {"id": "NB2", "title": "Sign client NDA", "owner": "Legal", "lead_days": 1, "mandatory": true, "compliance": true, "depends_on": [], "source": "Northbank client template v3"},
+        {"id": "NB3", "title": "Request client system access", "owner": "Client IT", "lead_days": 4, "mandatory": true, "compliance": false, "depends_on": ["NB1", "NB2"], "source": "Northbank client template v3"},
+        {"id": "NB4", "title": "Complete client compliance training", "owner": "Client compliance", "lead_days": 1, "mandatory": true, "compliance": true, "depends_on": ["NB3"], "source": "Northbank client template v3"}
+      ]
+    },
+    "MapleCare": {
+      "sector": "Healthcare",
+      "steps": [
+        {"id": "MC1", "title": "Request client background check", "owner": "Client security", "lead_days": 5, "mandatory": true, "compliance": true, "depends_on": [], "source": "MapleCare client template v1"},
+        {"id": "MC2", "title": "Complete health-privacy training", "owner": "Client compliance", "lead_days": 1, "mandatory": true, "compliance": true, "depends_on": [], "source": "MapleCare client template v1"},
+        {"id": "MC3", "title": "Request client system access", "owner": "Client IT", "lead_days": 3, "mandatory": true, "compliance": false, "depends_on": ["MC1", "MC2"], "source": "MapleCare client template v1"}
+      ]
+    }
+  },
+  "provinces": {
+    "QC": [
+      {"id": "Q1", "title": "Acknowledge Quebec privacy notice", "owner": "Privacy office", "lead_days": 1, "mandatory": true, "compliance": true, "depends_on": [], "source": "Quebec addendum v1"}
+    ]
+  },
+  "project": [
+    {"id": "P1", "title": "Meet your project team", "owner": "Project manager", "lead_days": 1, "mandatory": true, "compliance": false, "depends_on": [], "source": "Project template v1"},
+    {"id": "P2", "title": "Read project documentation", "owner": "Joiner", "lead_days": 1, "mandatory": true, "compliance": false, "depends_on": ["P1"], "source": "Project template v1"},
+    {"id": "P3", "title": "Set up project tools", "owner": "Joiner", "lead_days": 1, "mandatory": true, "compliance": false, "depends_on": ["CLIENT_ACCESS"], "source": "Project template v1"},
+    {"id": "P4", "title": "Pick up your first task", "owner": "Project manager", "lead_days": 1, "mandatory": true, "compliance": false, "depends_on": ["P2", "P3"], "source": "Project template v1"}
+  ]
+}
