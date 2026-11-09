@@ -1,0 +1,12 @@
+[
+  {"id": "J01", "name": "Aisha Khan", "segment": "new_hire", "role": "Consultant", "client": "Northbank", "province": "ON", "language": "en", "completed": [], "expect": {"gap": false, "has": ["C1", "NB1", "P4"], "lacks": ["Q1"]}},
+  {"id": "J02", "name": "Daniel Tremblay", "segment": "switcher", "role": "Senior associate", "client": "Northbank", "province": "QC", "language": "fr", "completed": [], "expect": {"gap": false, "has": ["Q1", "NB1"], "lacks": ["C1", "C2"]}},
+  {"id": "J03", "name": "Priya Nair", "segment": "new_hire", "role": "Analyst", "client": "MapleCare", "province": "ON", "language": "en", "completed": [], "expect": {"gap": false, "has": ["MC2", "C4"], "lacks": ["NB1"]}},
+  {"id": "J04", "name": "Marc Lefebvre", "segment": "switcher", "role": "Architect", "client": "MapleCare", "province": "QC", "language": "fr", "completed": ["MC1"], "expect": {"gap": false, "has": ["MC2", "Q1"], "lacks": ["MC1", "C1"]}},
+  {"id": "J05", "name": "Sofia Rossi", "segment": "new_hire", "role": "Developer", "client": "Arctic Energy", "province": "AB", "language": "en", "completed": [], "expect": {"gap": true}},
+  {"id": "J06", "name": "Owen Clarke", "segment": "switcher", "role": "Consultant", "client": "Northbank", "province": "ON", "language": "en", "completed": ["NB1", "NB2"], "expect": {"gap": false, "has": ["NB3", "P1"], "lacks": ["NB1", "NB2"]}},
+  {"id": "J07", "name": "Chloé Gagnon", "segment": "new_hire", "role": "Analyst", "client": "Northbank", "province": "QC", "language": "fr", "completed": [], "expect": {"gap": false, "has": ["C1", "Q1", "NB4"], "lacks": []}},
+  {"id": "J08", "name": "Ravi Menon", "segment": "new_hire", "role": "Developer", "client": "MapleCare", "province": "BC", "language": "en", "completed": [], "expect": {"gap": false, "has": ["C3", "MC3"], "lacks": ["Q1"]}},
+  {"id": "J09", "name": "Emma Wilson", "segment": "switcher", "role": "Project manager", "client": "Polar Logistics", "province": "ON", "language": "en", "completed": [], "expect": {"gap": true}},
+  {"id": "J10", "name": "Lucas Roy", "segment": "switcher", "role": "Tester", "client": "MapleCare", "province": "ON", "language": "en", "completed": ["MC1", "MC2"], "expect": {"gap": false, "has": ["MC3", "P4"], "lacks": ["MC1", "MC2", "C1"]}}
+]
