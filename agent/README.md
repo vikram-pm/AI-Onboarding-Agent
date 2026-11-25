@@ -1,6 +1,6 @@
 # P03 · AI Onboarding Agent
 
-Concept project for an AI PM portfolio. Synthetic data only; not affiliated with Cognizant or any client.
+Concept project for an AI PM portfolio. Synthetic data only; not affiliated with any employer or client.
 
 A multi-agent system (Google ADK + Gemini) that builds a joiner's onboarding plan, checks it, and writes the daily nudge.
 

@@ -19,7 +19,7 @@ from onboarding_agent.runner import run_onboarding  # noqa: E402
 
 st.set_page_config(page_title="P03 · AI Onboarding Agent", layout="wide")
 st.title("AI Onboarding Agent")
-st.caption("Concept project · synthetic data only · not affiliated with Cognizant or any client")
+st.caption("Concept project · synthetic data only · not affiliated with any employer or client")
 
 with st.sidebar:
     st.header("Joiner")

@@ -4,13 +4,13 @@ Oct 22, 2026 · Vikram Seenivasan · Concept project, synthetic data only
 
 ## Overview
 
-An AI onboarding assistant can cut the time for a consultant to become ready to contribute on a client project from an estimated 15 working days to 9. This is a personal concept project framed around Cognizant Canada's internal onboarding, using synthetic data only. All baselines below are hypotheses until discovery interviews confirm them.
+An AI onboarding assistant can cut the time for a consultant to become ready to contribute on a client project from an estimated 15 working days to 9. This is a personal concept project framed around internal onboarding at a fictional Canadian IT services firm, Acme Canada, using synthetic data only. All baselines below are hypotheses until discovery interviews confirm them.
 
 **Problem.** Onboarding is split across HR, IT access, mandatory training, client-specific requirements and project ramp-up, with no single owner. New joiners don't know what to do next, access requests queue in the wrong order, and project managers answer the same questions for every joiner.
 
 **Hero skill: experimentation and growth.** Success is decided by an A/B test on activation, not by model accuracy. That separates this project from Project 01 (extraction accuracy) and Project 02 (AI evaluation).
 
-**Two segments.** New hires joining Cognizant Canada, and existing employees rolling onto a new client project. Both end at the same moment: ready to contribute on the project.
+**Two segments.** New hires joining Acme Canada, and existing employees rolling onto a new client project. Both end at the same moment: ready to contribute on the project.
 
 ## Discovery
 
@@ -119,7 +119,7 @@ The main risk is that onboarding tracking feels like surveillance, so the data i
 | Accessibility (AODA) | Ontario accessibility standards | Plan and readiness view meet WCAG 2.1 AA |
 | Fairness | Plans could differ in quality by role or client | Review plan errors by segment each week |
 | Human control | AI could mark compliance steps done | AI never closes compliance steps |
-| Data | Real records can't leave Cognizant | Synthetic joiners, clients and templates only |
+| Data | Real records can't leave the company | Synthetic joiners, clients and templates only |
 
 ## Experiment design
 
@@ -160,7 +160,7 @@ A project manager may have joiners in both arms and coach control joiners using 
 
 ## Open questions and next steps
 
-The biggest open question for the experiment is volume: if Cognizant Canada onboards only a few dozen joiners a month, a simple A/B test may need months to reach significance.
+The biggest open question for the experiment is volume: if Acme Canada onboards only a few dozen joiners a month, a simple A/B test may need months to reach significance.
 
 - [ ] Run the 5 interviews and replace the hypothesised baselines
 - [ ] Estimate monthly joiner volume per segment (new hire vs switcher)

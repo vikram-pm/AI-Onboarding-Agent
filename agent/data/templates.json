@@ -1,5 +1,5 @@
 {
-  "_note": "Synthetic data for a concept project. Not real Cognizant or client processes.",
+  "_note": "Synthetic data for a concept project. Not real employer or client processes.",
   "company": [
     {"id": "C1", "title": "Complete new-hire forms", "owner": "HR", "lead_days": 2, "mandatory": true, "compliance": false, "depends_on": [], "source": "Company template v2"},
     {"id": "C2", "title": "Set up laptop and accounts", "owner": "IT", "lead_days": 3, "mandatory": true, "compliance": false, "depends_on": ["C1"], "source": "Company template v2"},

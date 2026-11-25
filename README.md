@@ -5,7 +5,7 @@ An AI agent that builds each new consultant’s onboarding plan, starts the slow
 **Live case study:** https://vikram-pm.github.io/AI-Onboarding-Agent
 **Live prototype:** https://vikram-pm.github.io/AI-Onboarding-Agent/prototype.html
 
-> Concept project with synthetic data only. Not affiliated with or endorsed by Cognizant or any client.
+> Concept project with synthetic data only. Not affiliated with or endorsed by any employer or client.
 
 ## What’s here
 
